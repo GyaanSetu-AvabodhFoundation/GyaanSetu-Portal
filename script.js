@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupMobileNavigation();
   setupModalHandlers();
   setupSuggestionFormValidation();
-  setupCommunityTabs(); // includes comment submission logic
+  setupCommunityTabs();
   setupReadMoreToggles();
   setupEmbedAutoResize();
   setupPollFeedback();
@@ -11,9 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupTiltCards();
   setupMagneticButtons();
   setupCursorGlow();
-  setupLiveImpactStats();
   setupDynamicKnowledgeHub();
-  setupPollFeedback();
 });
 
 /* =========================
@@ -28,11 +26,29 @@ const SCRIPT_URL =
 function setupMobileNavigation() {
   const menuBtn = document.getElementById("menu-toggle");
   const navList = document.getElementById("primary-nav-list");
+  const navLinks = document.querySelectorAll("#primary-nav-list .nav-link");
   if (!menuBtn || !navList) return;
 
   menuBtn.addEventListener("click", () => {
     const isOpen = navList.classList.toggle("is-open");
     menuBtn.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      navList.classList.remove("is-open");
+      menuBtn.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  document.addEventListener("click", (e) => {
+    const clickedInsideNav = navList.contains(e.target);
+    const clickedToggle = menuBtn.contains(e.target);
+
+    if (!clickedInsideNav && !clickedToggle && navList.classList.contains("is-open")) {
+      navList.classList.remove("is-open");
+      menuBtn.setAttribute("aria-expanded", "false");
+    }
   });
 }
 
@@ -82,12 +98,12 @@ function setupSuggestionFormValidation() {
         type: "suggestion",
         name: name,
         email: email,
-        suggestion: idea
-      })
+        suggestion: idea,
+      }),
     })
       .then(() => {
         showInlineMessage(msgBox, "Thanks! Suggestion submitted successfully.", "success");
-        showThankYouModal("Thank you! Your suggestion has been saved directly to the GyaanSetu database.");
+        showThankYouModal("Thank you! Your suggestion has been saved to the GyaanSetu database.");
         form.reset();
       })
       .catch((error) => {
@@ -109,6 +125,7 @@ function setupSuggestionFormValidation() {
 function setupCommunityTabs() {
   const tabButtons = document.querySelectorAll("[data-tab-target]");
   const panels = document.querySelectorAll(".community-panel");
+
   if (tabButtons.length && panels.length) {
     tabButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -126,7 +143,8 @@ function setupCommunityTabs() {
   if (!commentPanel) return;
 
   const commentForm = commentPanel.querySelector("#comment-form") || commentPanel.querySelector("form");
-  const postBtn = commentPanel.querySelector('button[type="submit"]') || commentPanel.querySelector("button");
+  const postBtn =
+    commentPanel.querySelector('button[type="submit"]') || commentPanel.querySelector("button");
   const nameInput = document.getElementById("comment-name");
   const textInput = document.getElementById("comment-text");
   const msgBox = document.getElementById("comment-message");
@@ -141,8 +159,8 @@ function setupCommunityTabs() {
     const comment = textInput.value.trim();
 
     if (!name || !comment) {
-      if (msgBox) showInlineMessage(msgBox, "Bhai, naam aur comment dono likhna zaroori hai!", "error");
-      else alert("Bhai, naam aur comment dono likhna zaroori hai!");
+      if (msgBox) showInlineMessage(msgBox, "Please enter both name and comment.", "error");
+      else alert("Please enter both name and comment.");
       return;
     }
 
@@ -156,8 +174,8 @@ function setupCommunityTabs() {
       body: new URLSearchParams({
         type: "comment",
         name: name,
-        comment: comment
-      })
+        comment: comment,
+      }),
     })
       .then(() => {
         if (commentList) {
@@ -168,14 +186,14 @@ function setupCommunityTabs() {
         }
 
         if (msgBox) showInlineMessage(msgBox, "Comment posted successfully.", "success");
-        showThankYouModal("Thanks! Tera comment GyaanSetu wall pe save ho gaya hai.");
+        showThankYouModal("Thank you! Your comment has been saved to the GyaanSetu wall.");
         nameInput.value = "";
         textInput.value = "";
       })
       .catch((error) => {
         console.error("Comment submit error:", error);
-        if (msgBox) showInlineMessage(msgBox, "Kuch error aaya, phir se try kar!", "error");
-        else alert("Kuch error aaya, phir se try kar!");
+        if (msgBox) showInlineMessage(msgBox, "Something went wrong. Please try again.", "error");
+        else alert("Something went wrong. Please try again.");
       })
       .finally(() => {
         postBtn.disabled = false;
@@ -223,7 +241,6 @@ function setupEmbedAutoResize() {
   resize();
 }
 
-
 /* =========================
    Reveal on Scroll
 ========================= */
@@ -237,7 +254,7 @@ function setupRevealOnScroll() {
         if (entry.isIntersecting) entry.target.classList.add("show");
       });
     },
-    { threshold: 0.12 }
+    { threshold: 0.12 },
   );
 
   els.forEach((el) => io.observe(el));
@@ -275,8 +292,8 @@ function setupTiltCards() {
       const r = card.getBoundingClientRect();
       const x = e.clientX - r.left;
       const y = e.clientY - r.top;
-      const rx = ((y / r.height) - 0.5) * -8;
-      const ry = ((x / r.width) - 0.5) * 8;
+      const rx = (y / r.height - 0.5) * -8;
+      const ry = (x / r.width - 0.5) * 8;
       card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
     });
 
@@ -366,35 +383,11 @@ function hideThankYouModal() {
 }
 
 /* =========================
-   Live Impact Counter
+   Dynamic Knowledge Hub
 ========================= */
-function setupLiveImpactStats() {
-  const stats = document.querySelectorAll(".stat-grid span");
-  if (!stats.length) return;
-
-  stats.forEach((stat) => {
-    const original = stat.textContent.trim();
-    const hasPlus = original.includes("+");
-    const target = parseInt(original.replace(/[+,]/g, ""), 10);
-    if (isNaN(target)) return;
-
-    const duration = 1600;
-    const start = performance.now();
-
-    const step = (now) => {
-      const progress = Math.min((now - start) / duration, 1);
-      const count = Math.floor(progress * target);
-      stat.textContent = count.toLocaleString() + (hasPlus ? "+" : "");
-      if (progress < 1) requestAnimationFrame(step);
-      else stat.textContent = target.toLocaleString() + (hasPlus ? "+" : "");
-    };
-
-    requestAnimationFrame(step);
-  });
-}
 async function setupDynamicKnowledgeHub() {
   const container = document.getElementById("wp-posts-container");
-  if (!container) return; // agar container nahi mila to silently skip
+  if (!container) return;
 
   const site = "education35647.wordpress.com";
   const apiURL = `https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/?number=3`;
@@ -413,38 +406,49 @@ async function setupDynamicKnowledgeHub() {
       return;
     }
 
-    container.innerHTML = posts.map((post) => `
+    container.innerHTML = posts
+      .map(
+        (post) => `
       <article class="card knowledge-card">
         <h3>${escapeHTML(post.title || "Untitled Post")}</h3>
         <p class="meta">Published: ${new Date(post.date).toLocaleDateString()}</p>
         <div class="excerpt">${post.excerpt || ""}</div>
         <a href="${post.URL}" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Read More</a>
       </article>
-    `).join("");
+    `,
+      )
+      .join("");
   } catch (err) {
     console.error("Knowledge Hub load error:", err);
     container.innerHTML = `<p class="meta">Failed to load insights. Please try again.</p>`;
   }
 }
+
 /* =========================
    Poll Feedback
 ========================= */
-
 function setupPollFeedback() {
   const pollForm = document.getElementById("poll-form");
   if (!pollForm) return;
 
+  if (pollForm.dataset.bound === "true") return;
+  pollForm.dataset.bound = "true";
+
   pollForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    // IMPORTANT: current HTML uses name="priority_poll"
+    if (pollForm.dataset.submitting === "true") return;
+    pollForm.dataset.submitting = "true";
+
     const selectedOption = pollForm.querySelector('input[name="priority_poll"]:checked')?.value;
     if (!selectedOption) {
-      alert("Bhai, pehle ek option select kar!");
+      pollForm.dataset.submitting = "false";
+      alert("Please select an option before voting.");
       return;
     }
 
-    const submitBtn = pollForm.querySelector('button[type="submit"]') || pollForm.querySelector("button");
+    const submitBtn =
+      pollForm.querySelector('button[type="submit"]') || pollForm.querySelector("button");
     const originalText = submitBtn ? submitBtn.innerHTML : "";
 
     if (submitBtn) {
@@ -457,22 +461,23 @@ function setupPollFeedback() {
       mode: "no-cors",
       body: new URLSearchParams({
         type: "poll",
-        option: selectedOption
-      })
+        option: selectedOption,
+      }),
     })
       .then(() => {
-        showThankYouModal("Thanks for voting! Your response is saved in our database.");
+        showThankYouModal("Thanks for voting! Your response has been saved.");
         pollForm.reset();
       })
       .catch((error) => {
         console.error("Poll submit error:", error);
-        alert("Vote submit nahi hua. Dobara try kar.");
+        alert("Vote submission failed. Please try again.");
       })
       .finally(() => {
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalText;
         }
+        pollForm.dataset.submitting = "false";
       });
   });
 }
