@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="GyaanSetu - Bridge of Knowledge connecting community wisdom with NGO action." />
+  <title>GyaanSetu | Bridge of Knowledge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body id="top">
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-grid"></div>
+  <div class="noise-overlay"></div>
+
+  <header class="site-header" id="home">
+    <div class="container nav-wrap glass">
+      <a class="brand" href="#top">
+        <span class="logo-ring"><i class="ri-bridge-2-line"></i></span>
+        <div>
+          <h1 class="brand-title">GyaanSetu</h1>
+          <p class="brand-tagline">Bridge of Knowledge</p>
+        </div>
+      </a>
+
+      <button id="menu-toggle" class="menu-toggle magnetic" aria-expanded="false" aria-controls="primary-nav-list">
+        <i class="ri-menu-4-line"></i>
+      </button>
+
+      <nav class="main-nav" aria-label="Primary navigation">
+        <ul class="nav-list" id="primary-nav-list">
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#suggestions" class="nav-link">Suggestions</a></li>
+          <li><a href="#knowledge-hub" class="nav-link">Knowledge Hub</a></li>
+          <li><a href="#community" class="nav-link">Community</a></li>
+          <li><a href="#footer-info" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="container hero">
+      <div class="hero-content reveal">
+        <p class="badge"><i class="ri-flashlight-line"></i> Built for people-first NGOs</p>
+        <h2>Connecting Community Wisdom with NGO Action</h2>
+        <p>
+          GyaanSetu creates one shared digital space where citizens submit ideas, NGOs collect real insights,
+          and communities co-create social impact.
+        </p>
+        <div class="hero-cta">
+          <a href="#suggestions" class="btn btn-primary magnetic ripple">Share a Suggestion</a>
+          <a href="#knowledge-hub" class="btn btn-glass magnetic ripple">Explore Knowledge Hub</a>
+        </div>
+      </div>
+
+      <div class="hero-card glass reveal delay-1 tilt">
+        <h3><i class="ri-bar-chart-box-line"></i> Live Impact Snapshot</h3>
+        <div class="stat-grid">
+          <div><span>2,400+</span><small>Suggestions</small></div>
+          <div><span>350+</span><small>Volunteers</small></div>
+          <div><span>120+</span><small>Articles</small></div>
+          <div><span>48</span><small>Active Programs</small></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="about" class="section">
+      <div class="container about-grid">
+        <div class="card glass reveal">
+          <h2 class="section-title">About GyaanSetu</h2>
+          <p>
+            NGOs often struggle with fragmented feedback, limited participation, and transparency gaps.
+            GyaanSetu solves this by creating a centralized, inclusive, and interactive platform.
+          </p>
+          <div class="chip-wrap">
+            <span class="chip"><i class="ri-chat-1-line"></i> Suggestion Sharing</span>
+            <span class="chip"><i class="ri-book-open-line"></i> Knowledge Exchange</span>
+            <span class="chip"><i class="ri-group-line"></i> Community Engagement</span>
+          </div>
+        </div>
+
+        <div class="card reveal delay-1 gradient-card">
+          <h3>NGO Partner</h3>
+          <p class="partner-name">Avabodh Foundation (Youth for Sewa)</p>
+          <p>Youth-led initiatives in healthcare, education, and grassroots development.</p>
+          <p><i class="ri-map-pin-2-line"></i> Flat no. 411, Honey Archana Complex, Nagpur</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="suggestions" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title reveal">Suggestion Submission</h2>
+        <p class="section-subtitle reveal delay-1">Share your thoughts. Shape real action.</p>
+
+        <div class="grid-2">
+          <article class="card reveal tilt">
+            <h3><i class="ri-google-line"></i> Google Form Integration</h3>
+            <div class="embed-wrapper shimmer">
+              <iframe
+                title="GyaanSetu Suggestion Form"
+                src="https://docs.google.com/forms/d/e/your-form-id/viewform?embedded=true"
+                width="100%"
+                height="700"
+                frameborder="0">
+                Loading…
+              </iframe>
+            </div>
+          </article>
+
+          <article class="card reveal delay-1">
+            <h3><i class="ri-edit-box-line"></i> Quick Suggestion Form</h3>
+            <form id="native-suggestion-form" novalidate>
+              <label for="sugg-name">Name</label>
+              <input id="sugg-name" class="input-field" type="text" placeholder="Enter your name" required />
+
+              <label for="sugg-email">Email</label>
+              <input id="sugg-email" class="input-field" type="email" placeholder="you@example.com" required />
+
+              <label for="sugg-idea">Your Suggestion</label>
+              <textarea id="sugg-idea" class="input-field" rows="5" placeholder="Write your suggestion..." required></textarea>
+
+              <button type="submit" class="btn btn-primary ripple magnetic">Submit Suggestion</button>
+              <p id="form-message" class="form-message" aria-live="polite"></p>
+            </form>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="knowledge-hub" class="section">
+      <div class="container">
+        <h2 class="section-title reveal">Knowledge Hub</h2>
+        <p class="section-subtitle reveal delay-1">Curated insights for informed social action.</p>
+
+        <div class="articles-grid" id="wp-posts-container">
+          <p style="text-align: center; grid-column: 1/-1;">Loading latest insights...</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="community" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title reveal">Community Interaction</h2>
+        <div class="community-tabs reveal delay-1">
+          <button class="btn btn-primary active ripple magnetic" data-tab-target="comments-panel" type="button">
+            <i class="ri-message-3-line"></i> Comments
+          </button>
+          <button class="btn btn-primary ripple magnetic" data-tab-target="polls-panel" type="button">
+            <i class="ri-bar-chart-grouped-line"></i> Polls
+          </button>
+        </div>
+
+        <div id="comments-panel" class="community-panel card reveal">
+          <h3>Comment Wall</h3>
+          <form id="comment-form">
+            <label for="comment-name">Name</label>
+            <input type="text" id="comment-name" class="input-field" required />
+
+            <label for="comment-text">Comment</label>
+            <textarea id="comment-text" rows="4" class="input-field" required></textarea>
+
+            <button class="btn btn-primary ripple magnetic" type="submit">Post Comment</button>
+            <p id="comment-message" class="form-message" aria-live="polite"></p>
+          </form>
+
+          <ul id="comment-list" class="comment-list"></ul>
+        </div>
+
+        <div id="polls-panel" class="community-panel card reveal" hidden>
+          <h3>Live Poll</h3>
+          <form id="poll-form">
+            <label><input type="radio" name="priority_poll" value="healthcare" /> Healthcare Awareness</label><br>
+            <label><input type="radio" name="priority_poll" value="education" /> Education Support</label><br>
+            <label><input type="radio" name="priority_poll" value="grassroots" /> Grassroots Development</label><br><br>
+            <button class="btn btn-primary ripple magnetic" type="submit">Vote</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer-info" class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h3>Avabodh Foundation (Youth for Sewa)</h3>
+        <p>Focused on youth-led initiatives in healthcare, education, and grassroots development.</p>
+        <address><i class="ri-map-pin-2-line"></i> Flat no. 411, Honey Archana Complex, Nagpur</address>
+      </div>
+      <div class="footer-links">
+        <a href="#top">Back to Top</a>
+        <a href="#suggestions">Submit Suggestion</a>
+        <a href="#knowledge-hub">Read Articles</a>
+      </div>
+    </div>
+    <p class="copy">© 2026 GyaanSetu. All rights reserved.</p>
+  </footer>
+
+  <div id="thankyou-modal" class="modal-overlay" hidden>
+    <div class="modal-box glass-pop">
+      <h3 id="thankyou-title"><i class="ri-checkbox-circle-line"></i> Submission Received</h3>
+      <p id="thankyou-text"></p>
+      <button id="modal-close" type="button" class="btn btn-primary ripple magnetic">Close</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
